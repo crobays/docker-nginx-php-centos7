@@ -1,0 +1,18 @@
+#!/bin/bash
+for env_var in $(env); do
+	echo " ==> ENV: $env_var"
+done
+
+for file in $(ls /etc/my_init.d);do
+	echo " ==> RUNNING $file"
+	/etc/my_init.d/$file
+done
+
+if [ -f "/project/run-start" ]
+then
+	chmod +x /project/run-start
+	/project/run-start
+fi
+
+php-fpm -D
+/etc/service/nginx/run
